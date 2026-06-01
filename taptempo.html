@@ -27,16 +27,35 @@
     <script>
         const button = document.querySelector('button');
         const bpmDisplay = document.querySelector('.BPM');
+        const body = document.querySelector('body');
+
         let tapTimes = [];
         let BPM = 0;
 
         button.addEventListener('click', () => {
-            console.log('Tapped @ ' + new Date().toISOString());
+            // console.log('Tapped @ ' + new Date().toISOString());
             tapTimes.push(Date.now());
 
             if (tapTimes.length > 1) {
                 const intervalBetweenTaps = tapTimes[tapTimes.length - 1] - tapTimes[tapTimes.length - 2];
                 BPM = Math.round(60000 / intervalBetweenTaps);
+                body.style.backgroundColor = `hsl(${BPM}, 100%, 80%)`; //? explain what this is doing.
+                // I know it changes the color based on using the BPM as some value of the hue
+                // but how *exactly* is it working,
+                // and can it be optimized to bring prettier colors?
+            }
+
+            bpmDisplay.innerText = BPM + 'bpm';
+        });
+
+        document.addEventListener('keydown', (event) => {
+            // console.log('Tapped @ ' + new Date().toISOString());
+            tapTimes.push(Date.now());
+
+            if (tapTimes.length > 1) {
+                const intervalBetweenTaps = tapTimes[tapTimes.length - 1] - tapTimes[tapTimes.length - 2];
+                BPM = Math.round(60000 / intervalBetweenTaps);
+                body.style.backgroundColor = `hsl(${BPM}, 100%, 80%)`;
             }
 
             bpmDisplay.innerText = BPM + 'bpm';
