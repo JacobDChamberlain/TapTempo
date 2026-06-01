@@ -3,10 +3,43 @@
   <head>
     <meta charset="UTF-8">
     <title>Tap Tempo</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 20vh;
+            height: 100vh;
+            margin: 0;
+        }
+        div.BPM {
+            top: 20px;
+            font-size: 2em;
+        }
+    </style>
   </head>
   <body>
-
+    <div class="BPM"> BPM</div>
+    <h1>Tap Tempo</h1>
+    <p>Tap away and get the BPM!</p>
+    <button>Tap me</button>
     <script>
+        const button = document.querySelector('button');
+        const bpmDisplay = document.querySelector('.BPM');
+        let tapTimes = [];
+        let BPM = 0;
 
+        button.addEventListener('click', () => {
+            console.log('Tapped @ ' + new Date().toISOString());
+            tapTimes.push(Date.now());
+
+            if (tapTimes.length > 1) {
+                const intervalBetweenTaps = tapTimes[tapTimes.length - 1] - tapTimes[tapTimes.length - 2];
+                BPM = Math.round(60000 / intervalBetweenTaps);
+            }
+
+            bpmDisplay.innerText = BPM + 'bpm';
+        })
     </script>
   </body>
